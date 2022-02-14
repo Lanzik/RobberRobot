@@ -16,7 +16,11 @@ bot.
 """
 
 import logging
-#import telegram
+import telegram
+import time
+
+import requests
+from bs4 import BeautifulSoup
 
 from telegram import Update, ForceReply, bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
@@ -51,8 +55,17 @@ def caps(update: Update, context: CallbackContext):
     context.bot.send_message(chat_id=update.effective_chat.id, text=text_caps)
 
 def start2(update: Update, context: CallbackContext):
-    context.bot.send_message(chat_id = 317533592, text = "ha ha ha")
-
+    context.bot.send_message(chat_id = -1001674856739, text = "ha ha ha")
+def write(update: Update, context: CallbackContext):
+      #  with open('../soup.txt', 'w') as f:
+       #     f.write(soup.text)
+        b = soup.find_all(class_ = "tgme_widget_message_inline_button url_button")
+        #print(b[1].get('href'))
+        while True:
+            for item in b:
+            context.bot.send_message(chat_id = -1001674856739, text = item.get('href'))
+            time.sleep(10)
+       # print(b[-1].text)
 def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
@@ -62,13 +75,13 @@ def main() -> None:
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
 
-    
+
     # on different commands - answer in Telegram
     #start_handler = CommandHandler("start", start)
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("start2", start2))
     dispatcher.add_handler(CommandHandler("update", update))
-
+    dispatcher.add_handler(CommandHandler("write", write))
     caps_handler = CommandHandler('caps', caps)
     dispatcher.add_handler(caps_handler)
     # Start the Bot
@@ -81,4 +94,7 @@ def main() -> None:
 
 
 if __name__ == '__main__':
+    page = requests.get("https://t.me/s/ProxyMTProto")
+    soup = BeautifulSoup(page.text, "html.parser")
+    #tgme_widget_message_inline_button url_button
     main()
