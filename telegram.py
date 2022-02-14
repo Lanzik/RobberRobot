@@ -63,7 +63,7 @@ def write(update: Update, context: CallbackContext):
         #print(b[1].get('href'))
         while True:
             for item in b:
-            context.bot.send_message(chat_id = -1001674856739, text = item.get('href'))
+                context.bot.send_message(chat_id = -1001674856739, text = item.get('href'))
             time.sleep(10)
        # print(b[-1].text)
 def main() -> None:
