@@ -16,7 +16,7 @@ bot.
 """
 
 import logging
-import telegram
+#import telegram
 
 from telegram import Update, ForceReply, bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
@@ -56,8 +56,8 @@ def start2(update: Update, context: CallbackContext):
 def main() -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
-    updater = Updater(token = "5078253708:AAFrCvftHBTxbuJQST71SnZ0pytZelpA8lQ", use_context=True)
-    bot = telegram.Bot(token='5078253708:AAFrCvftHBTxbuJQST71SnZ0pytZelpA8lQ')
+    updater = Updater(token = "5145569156:AAFzplz2kzmYTa2PRvrabkqZ0-DJO85efWg", use_context=True)
+ #   bot = telegram.Bot(token='5078253708:AAFrCvftHBTxbuJQST71SnZ0pytZelpA8lQ')
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
