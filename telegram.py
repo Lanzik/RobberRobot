@@ -1,100 +1,54 @@
-#!/usr/bin/env python
-# pylint: disable=C0116,W0613
-# This program is dedicated to the public domain under the CC0 license.
-
-"""
-Simple Bot to reply to Telegram messages.
-
-First, a few handler functions are defined. Then, those functions are passed to
-the Dispatcher and registered at their respective places.
-Then, the bot is started and runs until we press Ctrl-C on the command line.
-
-Usage:
-Basic Echobot example, repeats messages.
-Press Ctrl-C on the command line or send a signal to the process to stop the
-bot.
-"""
-
-import logging
-import telegram
-import time
-
-import requests
+import time, requests
 from bs4 import BeautifulSoup
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, CallbackContext
+def create_post(link):
+    ii = 2
+def check(context: CallbackContext):
+    next_v_remove_duplicate = False
 
-from telegram import Update, ForceReply, bot
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
-
-# Enable logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
-)
-
-logger = logging.getLogger(__name__)
-
-
-# Define a few command handlers. These usually take the two arguments update and
-# context.
-def start(update: Update, context: CallbackContext):
-
-    """Send a message when the command /start is issued."""
-    context.bot.send_message(chat_id = update.effective_chat.id, text="I'm a bot")
-    update.message.reply_text('Hi! LANZIK')
-    #bot.sendMessage("inam az in")
-   # print(bot.get_me())
-    context.bot.send_message(chat_id = update.effective_chat.id, text = "test")
-    context.bot.get_me()
-   # updates = context.bot.get_updates()
-   # print(updates[0])
-def update(update: Update, context: CallbackContext):
-    updates = context.bot.get_updates()
-    print(updates[0])
-
-def caps(update: Update, context: CallbackContext):
-    text_caps = ' '.join(context.args).upper()
-    context.bot.send_message(chat_id=update.effective_chat.id, text=text_caps)
-
-def start2(update: Update, context: CallbackContext):
-    context.bot.send_message(chat_id = -1001674856739, text = "ha ha ha")
 def write(update: Update, context: CallbackContext):
-      #  with open('../soup.txt', 'w') as f:
-       #     f.write(soup.text)
-        b = soup.find_all(class_ = "tgme_widget_message_inline_button url_button")
-        #print(b[1].get('href'))
-        while True:
-            for item in b:
-                context.bot.send_message(chat_id = -1001674856739, text = item.get('href'))
-            time.sleep(10)
-       # print(b[-1].text)
+    #print("inja")
+    b = soup.find_all(class_ = "tgme_widget_message_inline_button url_button")
+   # print(b)
+    last_link = b[-1].get('href')
+    is_it_proxy = True
+    if(is_it_proxy):
+        create_post(last_link)
+    
+    for item in b:
+        context.bot.send_message(chat_id = -1001674856739, text = item.get('href'))
+        time.sleep(10)
+    last_link = b[-1].get('href')
+    while(True):
+        page2 = requests.get("https://t.me/s/ProxyMTProto")
+        soup2 = BeautifulSoup(page2.text, "html.parser")
+        b = soup2.find_all(class_ = "tgme_widget_message_inline_button url_button")
+        item = -1
+        print("last link: " + last_link)
+        print("new soup: " + b[-1].get('href'))
+        while(True):
+            if(b[item].get('href') != last_link):
+                context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href'))
+                item -= 1
+                time.sleep(10)
+                continue
+            break
+        time.sleep(20)
+    
+def stop(update: Update, context: CallbackContext):
+    update.s
 def main() -> None:
-    """Start the bot."""
-    # Create the Updater and pass it your bot's token.
-    updater = Updater(token = "5145569156:AAFzplz2kzmYTa2PRvrabkqZ0-DJO85efWg", use_context=True)
- #   bot = telegram.Bot(token='5078253708:AAFrCvftHBTxbuJQST71SnZ0pytZelpA8lQ')
-
-    # Get the dispatcher to register handlers
+    updater = Updater(token = "5296950371:AAFHA-9KT3yMc-g4z3hAlk2eJk-G0rqdoQM", use_context=True)
     dispatcher = updater.dispatcher
-
-
-    # on different commands - answer in Telegram
-    #start_handler = CommandHandler("start", start)
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("start2", start2))
-    dispatcher.add_handler(CommandHandler("update", update))
     dispatcher.add_handler(CommandHandler("write", write))
-    caps_handler = CommandHandler('caps', caps)
-    dispatcher.add_handler(caps_handler)
-    # Start the Bot
+    dispatcher.add_handler(CommandHandler("stop", stop))
     updater.start_polling()
-
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
+    #updater.stop
     updater.idle()
-
 
 if __name__ == '__main__':
     page = requests.get("https://t.me/s/ProxyMTProto")
     soup = BeautifulSoup(page.text, "html.parser")
-    #tgme_widget_message_inline_button url_button
+    last_link = ''
     main()
