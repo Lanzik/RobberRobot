@@ -13,7 +13,17 @@ def create_post(link):
     ii = 2
 def check(context: CallbackContext):
     next_v_remove_duplicate = False
-
+def get_text(text, type):
+    good_text = text.split("?server=", 1)[1]
+    server = good_text.split("&port=", 1)[0]
+    if(type == 1):
+        return server
+    good_text = good_text.split("&port=", 1)[1]
+    port = good_text.split("&secret=", 1)[0]
+    if(type == 2):
+        return port
+    secret = good_text.split("&secret=", 1)[1]
+    return secret
 def write(update: Update, context: CallbackContext):
 
     while(True):
@@ -32,8 +42,12 @@ def write(update: Update, context: CallbackContext):
     
     for item in b:
         #context.bot.send_message(chat_id = -1001674856739, text = item.get('href') + " sign")
+        server = get_text(item.get('href'), 1)
+        port = get_text(item.get('href'), 2)
+        secret = get_text(item.get('href'), 3)
         keyboard = InlineKeyboardMarkup.from_button(InlineKeyboardButton(text="Connect", url = item.get('href')))
-        context.bot.send_message(chat_id = -1001674856739, text = " sign ", reply_markup=keyboard)
+        context.bot.send_message(chat_id = -1001674856739, text = "server: " + server + "\nport: " + port 
+        + "\nsecret: " + secret + "\n\n @ProxyTopia", reply_markup=keyboard)
         time.sleep(20)
     last_link = b[len(b) - 1].get('href')
     while(True):
@@ -49,8 +63,12 @@ def write(update: Update, context: CallbackContext):
         while(True):
             if(b[item].get('href') != last_link):
                # context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href') + " sign2")
-                keyboard = InlineKeyboardMarkup.from_button(InlineKeyboardButton(text="Connect", url = b[item].get('href')))
-                context.bot.send_message(chat_id = -1001674856739, text = " sign2 ", reply_markup=keyboard)
+                server = get_text(item.get('href'), 1)
+                port = get_text(item.get('href'), 2)
+                secret = get_text(item.get('href'), 3)
+                keyboard = InlineKeyboardMarkup.from_button(InlineKeyboardButton(text="Connect", url = item.get('href')))
+                context.bot.send_message(chat_id = -1001674856739, text = "server: " + server + "\nport: " + port 
+                + "\nsecret: " + secret + "\n\n @ProxyTopia", reply_markup=keyboard)
                 time_all = soup2.find_all(class_ = "tgme_widget_message_meta")
                 if((time_all[item].text).split()[0] == 'edited'):
                     last_link = b[len(b) - 1].get('href')
