@@ -9,7 +9,6 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-
 def create_post(link):
     ii = 2
 def check(context: CallbackContext):
