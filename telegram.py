@@ -17,7 +17,7 @@ def check(context: CallbackContext):
 def write(update: Update, context: CallbackContext):
     print("inja")
     while(True):
-        page = requests.get("https://t.me/s/ProxyMTProto")
+        page = requests.get("https://t.me/s/testChannelLanzik")
         soup = BeautifulSoup(page.text, "html.parser")
         last_link = ''
         b = soup.find_all(class_ = "tgme_widget_message_inline_button url_button")
@@ -31,12 +31,12 @@ def write(update: Update, context: CallbackContext):
         create_post(last_link)
     
     for item in b:
-        context.bot.send_message(chat_id = -1001674856739, text = item.get('href') + " emza")
-        time.sleep(10)
+        context.bot.send_message(chat_id = -1001674856739, text = item.get('href') + " sign")
+        time.sleep(20)
     last_link = b[len(b) - 1].get('href')
     while(True):
         while(True):
-            page2 = requests.get("https://t.me/s/ProxyMTProto")
+            page2 = requests.get("https://t.me/s/testChannelLanzik")
             soup2 = BeautifulSoup(page2.text, "html.parser")
             b = soup2.find_all(class_ = "tgme_widget_message_inline_button url_button")
             if(len(b) > 0):
@@ -46,22 +46,22 @@ def write(update: Update, context: CallbackContext):
         print("new soup: " + b[item].get('href'))
         while(True):
             if(b[item].get('href') != last_link):
-                context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href') + " emza2")
+                context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href') + " sign2")
                 time_all = soup2.find_all(class_ = "tgme_widget_message_meta")
                 if((time_all[item].text).split()[0] == 'edited'):
                     last_link = b[len(b) - 1].get('href')
                     break
                 item -= 1
-                time.sleep(10)
+                time.sleep(20)
                 continue
             last_link = b[len(b) - 1].get('href')
             break
-        time.sleep(20)
+        time.sleep(40)
     
 def stop(update: Update, context: CallbackContext):
     update.s
 def main() -> None:
-    updater = Updater(token = "5198112327:AAF_iHRawyU8aY58bvaq14ni8QB55Yf-fmU", use_context=True)
+    updater = Updater(token = "5100139306:AAHNzPn40RAiMHYGb7_iyjvYaewIrUCoREQ", use_context=True)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("write", write))
     dispatcher.add_handler(CommandHandler("stop", stop))
@@ -85,3 +85,4 @@ if __name__ == '__main__':
 # IndexError: list index out of range
 #nabayad payame akhar ro edit kone!!!
 #in bugeshe
+#age dota link ya bishtar to post akhar edit beshe faghat link akhar post mishe(ino badan okesh kon)
