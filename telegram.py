@@ -47,6 +47,10 @@ def write(update: Update, context: CallbackContext):
         while(True):
             if(b[item].get('href') != last_link):
                 context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href') + " emza2")
+                time_all = soup.find_all(class_ = "tgme_widget_message_meta")
+                if((time_all[item].text).split()[0] == 'edited'):
+                    last_link = b[len(b) - 1].get('href')
+                    break
                 item -= 1
                 time.sleep(10)
                 continue
