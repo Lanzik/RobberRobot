@@ -41,9 +41,9 @@ def write(update: Update, context: CallbackContext):
             b = soup2.find_all(class_ = "tgme_widget_message_inline_button url_button")
             if(len(b) > 0):
                 break
-        item = -1
+        item = len(b) - 1
         print("last link: " + last_link)
-        print("new soup: " + b[len(b) - 1].get('href'))
+        print("new soup: " + b[item].get('href'))
         while(True):
             if(b[item].get('href') != last_link):
                 context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href') + " emza2")
@@ -68,3 +68,16 @@ def main() -> None:
 if __name__ == '__main__':
 
     main()
+
+
+    #problem!!!!!
+#     Traceback (most recent call last):
+#   File "/home/xlzaxsca/virtualenv/RobberRobotV1/3.9/lib/python3.9/site-packages/telegram/ext/dispatcher.py", line 555, in process_update
+#     handler.handle_update(update, self, check, context)
+#   File "/home/xlzaxsca/virtualenv/RobberRobotV1/3.9/lib/python3.9/site-packages/telegram/ext/handler.py", line 198, in handle_update
+#     return self.callback(update, context)
+#   File "/home/xlzaxsca/RobberRobotV1/public/telegram2.py", line 49, in write
+#     if(b[item].get('href') != last_link):
+# IndexError: list index out of range
+#nabayad payame akhar ro edit kone!!!
+#in bugeshe
