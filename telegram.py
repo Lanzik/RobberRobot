@@ -1,6 +1,6 @@
 import time, requests, logging
 from bs4 import BeautifulSoup
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
 logging.basicConfig(
@@ -15,7 +15,7 @@ def check(context: CallbackContext):
     next_v_remove_duplicate = False
 
 def write(update: Update, context: CallbackContext):
-    print("inja")
+
     while(True):
         page = requests.get("https://t.me/s/testChannelLanzik")
         soup = BeautifulSoup(page.text, "html.parser")
@@ -31,7 +31,9 @@ def write(update: Update, context: CallbackContext):
         create_post(last_link)
     
     for item in b:
-        context.bot.send_message(chat_id = -1001674856739, text = item.get('href') + " sign")
+        #context.bot.send_message(chat_id = -1001674856739, text = item.get('href') + " sign")
+        keyboard = InlineKeyboardMarkup.from_button(InlineKeyboardButton(text="Connect", url = item.get('href')))
+        context.bot.send_message(chat_id = -1001674856739, text = " sign ", reply_markup=keyboard)
         time.sleep(20)
     last_link = b[len(b) - 1].get('href')
     while(True):
@@ -46,7 +48,9 @@ def write(update: Update, context: CallbackContext):
         print("new soup: " + b[item].get('href'))
         while(True):
             if(b[item].get('href') != last_link):
-                context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href') + " sign2")
+               # context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href') + " sign2")
+                keyboard = InlineKeyboardMarkup.from_button(InlineKeyboardButton(text="Connect", url = b[item].get('href')))
+                context.bot.send_message(chat_id = -1001674856739, text = " sign2 ", reply_markup=keyboard)
                 time_all = soup2.find_all(class_ = "tgme_widget_message_meta")
                 if((time_all[item].text).split()[0] == 'edited'):
                     last_link = b[len(b) - 1].get('href')
