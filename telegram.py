@@ -1,7 +1,8 @@
-import time, requests, logging
-from bs4 import BeautifulSoup
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackContext
+import time, requests, logging, telegram
+from bs4 import BeautifulSoup
+
 
 logging.basicConfig(
     format='salam log: %(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -9,10 +10,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-def create_post(link):
-    ii = 2
-def check(context: CallbackContext):
-    next_v_remove_duplicate = False
+
 def get_text(text, type):
     good_text = text.split("?server=", 1)[1]
     server = good_text.split("&port=", 1)[0]
@@ -27,7 +25,7 @@ def get_text(text, type):
 def write(update: Update, context: CallbackContext):
 
     while(True):
-        page = requests.get("https://t.me/s/testChannelLanzik")
+        page = requests.get("https://t.me/s/ProxyMTProto")
         soup = BeautifulSoup(page.text, "html.parser")
         last_link = ''
         b = soup.find_all(class_ = "tgme_widget_message_inline_button url_button")
@@ -36,23 +34,21 @@ def write(update: Update, context: CallbackContext):
    # print(b)
     print("what? " + str(len(b)))
     last_link = b[len(b) - 1].get('href')
-    is_it_proxy = True
-    if(is_it_proxy):
-        create_post(last_link)
+
     
     for item in b:
-        #context.bot.send_message(chat_id = -1001674856739, text = item.get('href') + " sign")
+        #context.bot.send_message(chat_id = -1001674856729, text = item.get('href') + " sign")
         server = get_text(item.get('href'), 1)
         port = get_text(item.get('href'), 2)
         secret = get_text(item.get('href'), 3)
         keyboard = InlineKeyboardMarkup.from_button(InlineKeyboardButton(text="Connect", url = item.get('href')))
-        context.bot.send_message(chat_id = -1001674856739, text = "server: " + server + "\nport: " + port 
-        + "\nsecret: " + secret + "\n\n @ProxyTopia", reply_markup=keyboard)
+        context.bot.send_message(chat_id = -1001498598531, text = "<b>Server:</b> <code>" + server + "</code>\n<b>Port:</b> <code>" + port 
+        + "</code>\n<b>Secret:</b> <code>" + secret + "</code>\n\n @ProxyTopia", reply_markup=keyboard, parse_mode=telegram.ParseMode.HTML)
         time.sleep(20)
     last_link = b[len(b) - 1].get('href')
     while(True):
         while(True):
-            page2 = requests.get("https://t.me/s/testChannelLanzik")
+            page2 = requests.get("https://t.me/s/ProxyMTProto")
             soup2 = BeautifulSoup(page2.text, "html.parser")
             b = soup2.find_all(class_ = "tgme_widget_message_inline_button url_button")
             if(len(b) > 0):
@@ -62,13 +58,13 @@ def write(update: Update, context: CallbackContext):
         print("new soup: " + b[item].get('href'))
         while(True):
             if(b[item].get('href') != last_link):
-               # context.bot.send_message(chat_id = -1001674856739, text = b[item].get('href') + " sign2")
-                server = get_text(item.get('href'), 1)
-                port = get_text(item.get('href'), 2)
-                secret = get_text(item.get('href'), 3)
-                keyboard = InlineKeyboardMarkup.from_button(InlineKeyboardButton(text="Connect", url = item.get('href')))
-                context.bot.send_message(chat_id = -1001674856739, text = "server: " + server + "\nport: " + port 
-                + "\nsecret: " + secret + "\n\n @ProxyTopia", reply_markup=keyboard)
+               # context.bot.send_message(chat_id = -1001674856729, text = b[item].get('href') + " sign2")
+                server = get_text(b[item].get('href'), 1)
+                port = get_text(b[item].get('href'), 2)
+                secret = get_text(b[item].get('href'), 3)
+                keyboard = InlineKeyboardMarkup.from_button(InlineKeyboardButton(text="Connect", url = b[item].get('href')))
+                context.bot.send_message(chat_id = -1001498598531, text = "<b>Server:</b> <code>" + server + "</code>\n<b>Port:</b> <code>" + port 
+                + "</code>\n<b>Secret:</b> <code>" + secret + "</code>\n\n @ProxyTopia", reply_markup=keyboard, parse_mode=telegram.ParseMode.HTML)
                 time_all = soup2.find_all(class_ = "tgme_widget_message_meta")
                 if((time_all[item].text).split()[0] == 'edited'):
                     last_link = b[len(b) - 1].get('href')
@@ -83,7 +79,7 @@ def write(update: Update, context: CallbackContext):
 def stop(update: Update, context: CallbackContext):
     update.s
 def main() -> None:
-    updater = Updater(token = "5100139306:AAHNzPn40RAiMHYGb7_iyjvYaewIrUCoREQ", use_context=True)
+    updater = Updater(token = "TOKEN", use_context=True)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("write", write))
     dispatcher.add_handler(CommandHandler("stop", stop))
