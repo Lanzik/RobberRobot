@@ -34,7 +34,6 @@ def write(update: Update, context: CallbackContext):
     print("what? " + str(len(b)))
     last_link = b[len(b) - 1].get('href')
 
-    
     for item in b:
         server = get_text(item.get('href'), 1)
         port = get_text(item.get('href'), 2)
