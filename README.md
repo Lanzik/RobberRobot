@@ -16,5 +16,4 @@ BeautifulSoup4
 requests
 
 telegram
-
 python-telegram-bot
