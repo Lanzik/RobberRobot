@@ -6,6 +6,8 @@ in next version:
 user can configure the bot in telegram and the code will be optimized and duplicate code Will be deleted
 
 
+ 
+
 Requirements and libraries:
 
 BeautifulSoup4
@@ -13,4 +15,5 @@ BeautifulSoup4
 requests
 
 telegram
+
 python-telegram-bot
