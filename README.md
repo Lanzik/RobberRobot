@@ -11,7 +11,6 @@ user can configure the bot in telegram and the code will be optimized and duplic
  
 
 Requirements and libraries:
-
 BeautifulSoup4
 
 requests
