@@ -11,7 +11,6 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-
 def get_text(text, type):
     good_text = text.split("?server=", 1)[1]
     server = good_text.split("&port=", 1)[0]
