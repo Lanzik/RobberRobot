@@ -1,3 +1,4 @@
+from typing import Mapping
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackContext
 import time, requests, logging, telegram
@@ -43,18 +44,21 @@ def write(update: Update, context: CallbackContext):
         + "</code>\n<b>Secret:</b> <code>" + secret + "</code>\n\n @ProxyTopia", reply_markup=keyboard, parse_mode=telegram.ParseMode.HTML)
         time.sleep(20)
     last_link = b[len(b) - 1].get('href')
+    pages = {1: "https://t.me/s/ProxyMTProto", 2:"https://t.me/s/MTProxyStar", 3:"https://t.me/s/TelMTProto"}
+    LL_pages = {1: last_link, 2: "", 3: ""}
+    index = 1
     while(True):
         while(True):
-            page2 = requests.get("https://t.me/s/ProxyMTProto")
+            page2 = requests.get(pages[index])
             soup2 = BeautifulSoup(page2.text, "html.parser")
             b = soup2.find_all(class_ = "tgme_widget_message_inline_button url_button")
             if(len(b) > 0):
                 break
         item = -1
-        print("last link: " + last_link)
+        print("last link: " + LL_pages[index])
         print("new soup: " + b[item].get('href'))
         while(True):
-            if(b[item].get('href') != last_link):
+            if(b[item].get('href') != LL_pages[index]):
                 server = get_text(b[item].get('href'), 1)
                 port = get_text(b[item].get('href'), 2)
                 secret = get_text(b[item].get('href'), 3)
@@ -63,13 +67,14 @@ def write(update: Update, context: CallbackContext):
                 + "</code>\n<b>Secret:</b> <code>" + secret + "</code>\n\n @ProxyTopia", reply_markup=keyboard, parse_mode=telegram.ParseMode.HTML)
                 time_all = soup2.find_all(class_ = "tgme_widget_message_meta")
                 if((time_all[item].text).split()[0] == 'edited'):
-                    last_link = b[len(b) - 1].get('href')
+                    LL_pages[index] = b[len(b) - 1].get('href')
                     break
                 item -= 1
                 time.sleep(20)
                 continue
-            last_link = b[len(b) - 1].get('href')
+            LL_pages[index] = b[len(b) - 1].get('href')
             break
+        index += 1
         time.sleep(40)
     
 def stop(update: Update, context: CallbackContext):
