@@ -130,7 +130,6 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("write", write))
     dispatcher.add_handler(CommandHandler("write2", write2))
     updater.start_polling()
-    #updater.stop
     updater.idle()
 
 if __name__ == '__main__':
